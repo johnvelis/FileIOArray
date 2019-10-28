@@ -18,24 +18,61 @@ namespace FileIOArray
             string[] students;
 
             students = new string[3];
-            students[0] = "Sue, McWaters, 34";
-            students[1] = "Bill, Tompson, 23";
-            students[2] = "Charlie, Velis, 22";
+            students[0] = "Sue,McWaters,34";
+            students[1] = "Bill,Tompson,23";
+            students[2] = "Charlie,Velis,22";
 
             WriteAllStudents(dataPath, students);
 
-            students = ReadAllStudent(dataPath);
+            students = ReadAllStudents(dataPath);
 
-            DisplayAllStudents(students);
+            DisplayStudentInfo(students);
         }
 
-        static string[] ReadAllStudent(string dataPath)
+        static void DisplayStudentInfo(string[] students)
         {
-            string[] students;
+            Console.WriteLine();
+            Console.WriteLine("Student Info");
+            Console.WriteLine();
 
-            students = File.ReadAllLines(dataPath);
+            //
+            // display header
+            //
+            Console.WriteLine(
+                "First Name".PadRight(15) +
+                "Last Name".PadRight(15) +
+                "Age".PadRight(15)
+                );
+            Console.WriteLine(
+                "-------".PadRight(15) +
+                "-------".PadRight(15) +
+                "-------".PadRight(15)
+                );
 
-            return students;
+            foreach (string student in students)
+            {
+                //
+                // split out individual fields
+                //
+                string[] studentInfo = student.Split(',');
+                string firstName = studentInfo[0];
+                string lastName = studentInfo[1];
+                string age = studentInfo[2];
+                               
+                //
+                // display table
+                //
+                Console.WriteLine(
+                    firstName.PadRight(15) +
+                    lastName.PadRight(15) +
+                    age.PadRight(15)
+                    );
+
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
         }
 
         static void WriteAllStudents(string dataPath, string[] students)
@@ -43,42 +80,13 @@ namespace FileIOArray
             File.WriteAllLines(dataPath, students);
         }
 
-        static void DisplayAllStudents(string[] students)
+        static string[] ReadAllStudents(string dataPath)
         {
-            Console.WriteLine();
-            Console.WriteLine("All Students");
-            Console.WriteLine();
+            string[] students;
 
-            //
-            // table headers
-            //
-            Console.WriteLine(
-                "First Name".PadRight(20) +
-                "Last Name".PadRight(20) +
-                "Age".PadRight(20)
-                );
-            Console.WriteLine(
-                "--------".PadRight(20) +
-                "--------".PadRight(20) +
-                "--------".PadRight(20)
-                );
+            students = File.ReadAllLines(dataPath);
 
-            //
-            // table of students
-            //
-            foreach (string student in students)
-            {
-                string[] studentInfo = student.Split(',');
-                Console.WriteLine(
-                    studentInfo[0].PadRight(20) +
-                    studentInfo[1].PadRight(20) +
-                    studentInfo[2].PadRight(20)
-                    );
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
+            return students;
         }
     }
 }
